@@ -11,3 +11,6 @@ https://www.happyscribe.com/de/untertitel-tools/srt-in-text-umwandeln
 ## Naming Convention
 „Movie Name (Production Year).txt“, e.g.:
 „Spider-Man - Far From Home (2019).txt“
+
+## Genres
+10 genres: ACTION, ADVENTURE, COMEDY, DRAMA, FANTASY, HISTORY, SCIFI, SPORT, SUPERHERO, WESTERN
