@@ -14,3 +14,5 @@ https://www.happyscribe.com/de/untertitel-tools/srt-in-text-umwandeln
 
 ## Genres
 10 genres: ACTION, ADVENTURE, COMEDY, DRAMA, FANTASY, HISTORY, SCIFI, SPORT, SUPERHERO, WESTERN
+
+If you want to add movies to the collection, please upload them into the corresponding folder.
