@@ -1,5 +1,5 @@
 import math
-from gensim.models import word2vec
+from gensim.models import FastText # Alternative: sister
 
 def load_subtitles(filepath):
     """Load movie subtitle txt-file, and remove blank lines and line breaks
@@ -27,7 +27,7 @@ def split_label_subtitles(text, genre, n_splits):
     """Split the given subtitles/text into n_splits parts
     
     args: text (subtitles transformed into continuous text), genre (movie
-    genre of the film), n_split (number of splits, integer)
+    genre of the film), n_split (integer, number of splits)
     
     return: splits (list of parts of the subtitles/text), labels (list of
     the labels of the subtitle splits)"""
@@ -54,8 +54,14 @@ def split_label_subtitles(text, genre, n_splits):
     return splits, labels
 
 
-def encode_splits(splits):
-    """"""
+def encode_splits(splits, encoder):
+    """Encode the list of parts of the subtitles/text
+    
+    args: splits (list of parts of the subtitles/text), encoder (string,
+    name of the encoder to be used for encoding the splits)
+    
+    return: splits_encoded (list of parts of the subtitles/text, encoded 
+    with word2vec)"""
 
 
 def encode_labels(labels):
@@ -64,7 +70,7 @@ def encode_labels(labels):
     args: labels (list of the labels of the subtitle splits)
     
     return: labels_encoded (list of the labels of the subtitle splits,
-    encoded of as a list of integers)"""
+    encoded as a list of integers)"""
     
     label_dict = {"action": 0, "adventure": 1, "comedy": 2, "drama": 3,
                   "fantasy": 4, "history": 5, "scifi": 6, "sport": 7,
@@ -77,16 +83,49 @@ def encode_labels(labels):
     return labels_encoded
 
 
+def create_dataset(movie_list, encoder, n_splits):
+    """Create the dataset, i.e. ONE list of encoded splits and ONE list 
+    of encoded labels
+    
+    args: movie_list (list of the subtitle filepaths), n_splits (integer, 
+    number of splits)
+    
+    return: x (list of encoded splits), y (list of encoded labels)"""
+    x = []
+    y = []
+
+    for movie in movie_list:
+        text = load_subtitles(movie)
+        genre = (str((movie.split("/"))[-2])).lower()
+        splits, labels = split_label_subtitles(text, genre, n_splits)
+
+        x += encode_splits(splits, encoder)
+        y += encode_labels(labels)
+
+    return x, y
+
+
+# FOR TEST PURPOSES ONLY
 
 path_bttf = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/SCIFI/Back To The Future (1985).txt"
+path_indy3 = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/ADVENTURE/Indiana Jones and the Last Crusade (1989).txt"
+path_shawsahnk = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/DRAMA/The Shawshank Redemption (1994).txt"
 
-text = load_subtitles(path_bttf)
+movie_list = [path_bttf, path_indy3, path_shawsahnk]
+x, y = create_dataset(movie_list, "", 100)
+
+print("Splits:")
+print(x)
+print("Labels:")
+print(y)
+
+#text = load_subtitles(path_bttf)
 #print(text)
 
-splits, labels = split_label_subtitles(text, "scifi", 100)
-print(splits)
-print()
-print(labels)
-print()
-labels_encoded = encode_labels(labels)
-print(labels_encoded)
+#splits, labels = split_label_subtitles(text, "scifi", 100)
+#print(splits)
+#print()
+#print(labels)
+#print()
+#labels_encoded = encode_labels(labels)
+#print(labels_encoded)
