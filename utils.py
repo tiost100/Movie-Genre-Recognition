@@ -1,5 +1,10 @@
+import os
 import math
-from gensim.models import FastText # Alternative: sister
+#from gensim.models import FastText # Alternative: sister
+
+# Get the full path of the directory where the current file is located
+dir_path = os.path.dirname(os.path.abspath(__file__))
+dir_path = dir_path.replace('\\','/')
 
 def load_subtitles(filepath):
     """Load movie subtitle txt-file, and remove blank lines and line breaks
@@ -15,7 +20,7 @@ def load_subtitles(filepath):
 
     text = ""
 
-    with open(filepath, "r", encoding="utf-8") as infile:
+    with open(filepath, "r", encoding="latin-1") as infile:
         for line in infile:
             if line.strip():
                 text += line.strip("\n") + " "
@@ -83,15 +88,44 @@ def encode_labels(labels):
     return labels_encoded
 
 
-def create_dataset(movie_list, encoder, n_splits):
-    """Create the dataset, i.e. ONE list of encoded splits and ONE list 
-    of encoded labels
+def create_movie_list(genres):
+    """Creates a list of the subtitle filepaths
+    
+    args: genres (a list of the movie genres)
+    
+    return: movie_list (list of the subtitle filepaths)"""
+
+    movie_list = []
+
+    for genre in genres:
+        genre = genre.upper()
+
+        for film in os.listdir(dir_path + "/" + genre):
+            movie_list.append(dir_path + "/" + genre + "/" + film)
+
+    return movie_list
+
+
+
+def create_dataset(movie_list, n_splits):
+    """Create the dataset, i.e. a .csv-file consisting of one column with
+    labels and one column with subtitle splits
     
     args: movie_list (list of the subtitle filepaths), n_splits (integer, 
     number of splits)
     
-    return: x (list of encoded splits), y (list of encoded labels)"""
-    x = []
+    return: None"""
+
+    with open(f'{dir_path}/movies.csv', 'w', encoding='utf-8') as outfile:
+        for movie in movie_list:
+            text = load_subtitles(movie)
+            genre = (str((movie.split("/"))[-2])).lower()
+            splits, labels = split_label_subtitles(text, genre, n_splits)
+
+            for i in range(len(labels)):
+                outfile.write(labels[i] + ";" + splits[i] + "\n")
+
+    """ x = []
     y = []
 
     for movie in movie_list:
@@ -102,22 +136,27 @@ def create_dataset(movie_list, encoder, n_splits):
         x += encode_splits(splits, encoder)
         y += encode_labels(labels)
 
-    return x, y
+    return x, y """
 
 
 # FOR TEST PURPOSES ONLY
 
-path_bttf = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/SCIFI/Back To The Future (1985).txt"
-path_indy3 = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/ADVENTURE/Indiana Jones and the Last Crusade (1989).txt"
-path_shawsahnk = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/DRAMA/The Shawshank Redemption (1994).txt"
+#path_bttf = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/SCIFI/Back To The Future (1985).txt"
+#path_indy3 = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/ADVENTURE/Indiana Jones and the Last Crusade (1989).txt"
+#path_shawsahnk = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/DRAMA/The Shawshank Redemption (1994).txt"
 
-movie_list = [path_bttf, path_indy3, path_shawsahnk]
-x, y = create_dataset(movie_list, "", 100)
+#movie_list = [path_bttf, path_indy3, path_shawsahnk]
 
-print("Splits:")
-print(x)
-print("Labels:")
-print(y)
+genres = ["action", "adventure", "comedy", "drama", "fantasy", "history", "scifi", "sport", "superhero", "western"]
+movie_list = create_movie_list(genres)
+print(movie_list)
+
+create_dataset(movie_list, 100)
+
+#print("Splits:")
+#print(x)
+#print("Labels:")
+#print(y)
 
 #text = load_subtitles(path_bttf)
 #print(text)
