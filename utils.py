@@ -123,6 +123,7 @@ def create_dataset(movie_list, n_splits):
             splits, labels = split_label_subtitles(text, genre, n_splits)
 
             for i in range(len(labels)):
+                splits[i] = splits[i].replace(";", ",") 
                 outfile.write(labels[i] + ";" + splits[i] + "\n")
 
     """ x = []
