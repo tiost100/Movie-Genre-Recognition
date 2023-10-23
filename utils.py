@@ -23,7 +23,7 @@ def load_subtitles(filepath):
     with open(filepath, "r", encoding="latin-1") as infile:
         for line in infile:
             if line.strip():
-                text += line.strip("\n") + " "
+                text += line.strip("\n").lower() + " "
 
     return text
 
