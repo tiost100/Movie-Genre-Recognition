@@ -1,6 +1,5 @@
 import os
 import math
-#from gensim.models import FastText # Alternative: sister
 
 # Get the full path of the directory where the current file is located
 dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -126,46 +125,32 @@ def create_dataset(movie_list, n_splits):
                 splits[i] = splits[i].replace(";", ",") 
                 outfile.write(labels[i] + ";" + splits[i] + "\n")
 
-    """ x = []
-    y = []
-
-    for movie in movie_list:
-        text = load_subtitles(movie)
-        genre = (str((movie.split("/"))[-2])).lower()
-        splits, labels = split_label_subtitles(text, genre, n_splits)
-
-        x += encode_splits(splits, encoder)
-        y += encode_labels(labels)
-
-    return x, y """
 
 
-# FOR TEST PURPOSES ONLY
-
-#path_bttf = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/SCIFI/Back To The Future (1985).txt"
-#path_indy3 = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/ADVENTURE/Indiana Jones and the Last Crusade (1989).txt"
-#path_shawsahnk = "C:/Users/Tim.O/Documents/Studium/4. Semester/Deep Learning for NLP/ABSCHLUSSPROJEKT/Movie collection/DRAMA/The Shawshank Redemption (1994).txt"
-
-#movie_list = [path_bttf, path_indy3, path_shawsahnk]
-
+# Create the dataset
 genres = ["action", "adventure", "comedy", "drama", "fantasy", "history", "scifi", "sport", "superhero", "western"]
 movie_list = create_movie_list(genres)
 print(movie_list)
 
 create_dataset(movie_list, 100)
 
-#print("Splits:")
-#print(x)
-#print("Labels:")
-#print(y)
 
-#text = load_subtitles(path_bttf)
-#print(text)
+# Create a test file (movie "Showtime")
+with open(f'{dir_path}/Test/showtime.csv', 'w', encoding='utf-8') as outfile:
+    test_text = load_subtitles(dir_path + "/Test/Showtime (2002).txt")
+    test_genre = "action"
+    test_splits, test_labels = split_label_subtitles(test_text, test_genre, 100)
 
-#splits, labels = split_label_subtitles(text, "scifi", 100)
-#print(splits)
-#print()
-#print(labels)
-#print()
-#labels_encoded = encode_labels(labels)
-#print(labels_encoded)
+    for i in range(len(test_labels)):
+        test_splits[i] = test_splits[i].replace(";", ",") 
+        outfile.write(test_labels[i] + ";" + test_splits[i] + "\n")
+
+# Create a test file (movie "Equalizer 3")
+with open(f'{dir_path}/Test/equalizer.csv', 'w', encoding='utf-8') as outfile:
+    test_text = load_subtitles(dir_path + "/Test/The Equalizer 3 (2023).txt")
+    test_genre = "action"
+    test_splits, test_labels = split_label_subtitles(test_text, test_genre, 100)
+
+    for i in range(len(test_labels)):
+        test_splits[i] = test_splits[i].replace(";", ",") 
+        outfile.write(test_labels[i] + ";" + test_splits[i] + "\n")
