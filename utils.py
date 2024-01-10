@@ -58,35 +58,6 @@ def split_label_subtitles(text, genre, n_splits):
     return splits, labels
 
 
-def encode_splits(splits, encoder):
-    """Encode the list of parts of the subtitles/text
-    
-    args: splits (list of parts of the subtitles/text), encoder (string,
-    name of the encoder to be used for encoding the splits)
-    
-    return: splits_encoded (list of parts of the subtitles/text, encoded 
-    with word2vec)"""
-
-
-def encode_labels(labels):
-    """Encode the list of labels
-    
-    args: labels (list of the labels of the subtitle splits)
-    
-    return: labels_encoded (list of the labels of the subtitle splits,
-    encoded as a list of integers)"""
-    
-    label_dict = {"action": 0, "adventure": 1, "comedy": 2, "drama": 3,
-                  "fantasy": 4, "history": 5, "scifi": 6, "sport": 7,
-                  "superhero": 8, "western": 9}
-    
-    genre = labels[0]
-
-    labels_encoded = [label_dict[genre]] * len(labels)
-
-    return labels_encoded
-
-
 def create_movie_list(genres):
     """Creates a list of the subtitle filepaths
     
@@ -103,7 +74,6 @@ def create_movie_list(genres):
             movie_list.append(dir_path + "/" + genre + "/" + film)
 
     return movie_list
-
 
 
 def create_dataset(movie_list, n_splits):
@@ -126,13 +96,12 @@ def create_dataset(movie_list, n_splits):
                 outfile.write(labels[i] + ";" + splits[i] + "\n")
 
 
-
 # Create the dataset
 genres = ["action", "adventure", "comedy", "drama", "fantasy", "history", "scifi", "sport", "superhero", "western"]
 movie_list = create_movie_list(genres)
-print(movie_list)
 
 create_dataset(movie_list, 100)
+print("Dataset created")
 
 
 # Create a test file (movie "Showtime")
@@ -154,3 +123,5 @@ with open(f'{dir_path}/Test/equalizer.csv', 'w', encoding='utf-8') as outfile:
     for i in range(len(test_labels)):
         test_splits[i] = test_splits[i].replace(";", ",") 
         outfile.write(test_labels[i] + ";" + test_splits[i] + "\n")
+
+print("Test files created")
