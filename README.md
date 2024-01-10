@@ -1,27 +1,27 @@
 # Movie Genre Recognition
+
+## Table of Contents
+1. [General Info](#general-info)
+2. [Requirements](#requirements)
+3. [Download](#download)
+4. [Usage](#usage)
+5. [Technologies/Sources](#technologiessources)
+6. [Licence](#licence)
+
+## General Info
 Automatic movie genre recognition based on the English subtitles
 
 ## Requirements
 * Python Version 3.8.8./3.11.4.
 * Gensim: <pre>pip install gensim</pre>
-* BERT:
-* ELMo:
 
-## Useful Links
-Downloading the subtitles on: 
-https://www.opensubtitles.org/en/index.cgi
+## Download
 
-Transforming them into „readable“ .txt-files: 
-https://www.happyscribe.com/de/untertitel-tools/srt-in-text-umwandeln
+## Usage
 
-## Naming Convention
-„Movie Name (Production Year).txt“, e.g.:
-„Spider-Man - Far From Home (2019).txt“
+## Technologies/Sources
+- _Multilabel Genre Prediction Using Deep-Learning Frameworks_
+- OpenSubtitles: <br />https://www.opensubtitles.org/
+- Happy Scribe (a tool that converts subtitles in .srt format to .txt file): <br />https://www.happyscribe.com/de/untertitel-tools/untertitel-converter
 
-## Genres
-10 genres: ACTION, ADVENTURE, COMEDY, DRAMA, FANTASY, HISTORY, SCIFI, SPORT, SUPERHERO, WESTERN
-
-If you want to add movies to the collection, please upload them into the corresponding folder.
-
-## Sources
-_Multilabel Genre Prediction Using Deep-Learning Frameworks_
+## Licence
