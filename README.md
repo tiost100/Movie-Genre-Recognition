@@ -1,4 +1,5 @@
-# Movie Genre Recognition
+# “Don't judge a movie by its cover but by its subtitles” - Classifying with Deep Learning Architectures and LLMs
+
 
 ## Table of Contents
 1. [General Info](#general-info)
